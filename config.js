@@ -1,4 +1,4 @@
-var config = { aws:{}, node:{}, crypto:{} };
+var config = { aws:{}, node:{} };
 
 config.aws = {
     cauth: {
@@ -16,11 +16,13 @@ config.aws = {
     tokenKey: "xxx"
 }
 
-config.node.home = "./data";
-config.node.mqttHost = "tcp://xxx:1883";
-config.node.bcSeeds = ["testnet-seed.litecointools.com","seed-b.litecoin.loshan.co.uk","dnsseed-testnet.thrasher.io"];
-config.node.registryUrl = "http://xxx:8080";
-config.node.requestTimeout = 10000;
-config.node.nodenamePrefix = "xxx";
+config.node = {
+    home: "./data",
+    mqttHost: "tcp://xxx:1883",
+    bcSeeds: ["testnet-seed.litecointools.com","seed-b.litecoin.loshan.co.uk","dnsseed-testnet.thrasher.io"],
+    registryUrl: "http://xxx:8080",
+    requestTimeout: 10000,
+    nodenamePrefix: "xxx"
+}
 
 module.exports = config;

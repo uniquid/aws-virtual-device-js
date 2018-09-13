@@ -14,6 +14,7 @@ config.node.rpcHandlers = [
 
 // Use standard UQ node factory to create an UQ Node:   
 standardUQNodeFactory(config.node).then(uq => {
+        console.log('MY NAME IS :', uq.nodename);
         cli(uq)
     }, error => {
 })
@@ -50,7 +51,7 @@ cli = function(uq){
                 signature:b_signed.toString('base64')
             }));
             } else {
-            console.log("There is not a valid contract.");
+                console.log("There is not a valid contract.");
             }
         });
         }

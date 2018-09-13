@@ -13,5 +13,8 @@ cd ./aws-virtual-device-js``
 npm install
 ```
 
+### configure
+update `config.js` file and add your private-key file (PEM format) in `secure` directory
+
 ### run
 `npm start`
