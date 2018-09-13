@@ -5,12 +5,13 @@
 
 ## Getting started
 ### clone
-```git clone https://github.com/uniquid/aws-virtual-device-js -b develop```
+`git clone https://github.com/uniquid/aws-virtual-device-js -b develop`
 
 ### install
-```cd ./aws-virtual-device-js
-
-npm install```
+```
+cd ./aws-virtual-device-js``
+npm install
+```
 
 ### run
-```npm start```
+`npm start`
