@@ -1,3 +1,7 @@
 node_modules
-data
+data/*/
+secure/*/
 package-lock.json
+myconfig.js
+prvkey.pem
+pubkey.pem
