@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/uniquid/aws-virtual-device-js/issues"
   },
-  "homepage": "https://github.com/uniquid/aws-virtual-device-js#readme"
+  "homepage": "https://github.com/uniquid/aws-virtual-device-js#readme",
+  "dependencies": {
+    "@uniquid/uidcore": "git+https://github.com/uniquid/uidcore-js.git#feature/litecoin"
+  }
 }
