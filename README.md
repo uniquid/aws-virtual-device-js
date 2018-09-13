@@ -1,1 +1,4 @@
-# aws-virtual-device-js
+# aws-virtual-device-js 
+
+## Requirements  
+- Node 8  
