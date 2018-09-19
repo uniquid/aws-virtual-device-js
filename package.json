@@ -19,7 +19,6 @@
   "homepage": "https://github.com/uniquid/aws-virtual-device-js#readme",
   "dependencies": {
     "@uniquid/uidcore": "git+https://github.com/uniquid/uidcore-js.git#feature/litecoin",
-    "aws-iot-device-sdk": "^2.2.1",
-    "inquirer": "^6.2.0"
+    "aws-iot-device-sdk": "^2.2.1"
   }
 }
