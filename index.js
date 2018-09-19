@@ -46,12 +46,12 @@ awsDevice = function(tokenkey, options, keyfile, token){
     device.on('connect', function() {
         console.log('connect');
         device.subscribe('mytopic');
-        device.emit('publish')
+        device.emit('publish') //publish message after che connection
     });
             
     device.on('publish', function() {
         //console.log('publish');
-        setTimeout(function(){
+        setTimeout(function(){ //publish message every 5 seconds
             data = {timestamp:Date.now()}
             device.publish('mytopic', JSON.stringify(data));
             device.emit('publish')
