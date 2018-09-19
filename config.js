@@ -13,7 +13,8 @@ config.aws = {
         }
     },
     keyFile: "./secure/xxx",
-    tokenKey: "xxx"
+    tokenKey: "xxx",
+    awsNode: "xxx"
 }
 
 config.node = {
