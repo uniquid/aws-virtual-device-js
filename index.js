@@ -1,7 +1,8 @@
-const config = require("./config.js");
+const config = require("./myconfig.js");
 const { standardUQNodeFactory } = require('@uniquid/uidcore')
 var awsIot = require('aws-iot-device-sdk');
-var crypto = require('crypto'), fs = require('fs'), inquirer = require('inquirer');
+var crypto = require('crypto'), fs = require('fs');
+var events = require('events');
 
 // create some handlers for bitmask rpc over mqtt
 const RPC_METHOD_ECHO = 34
@@ -12,14 +13,29 @@ config.node.rpcHandlers = [
   }
 ]
 
+var eventEmitter = new events.EventEmitter();
+
 // Use standard UQ node factory to create an UQ Node:   
 standardUQNodeFactory(config.node).then(uq => {
         console.log('MY NAME IS :', uq.nodename);
-        cli(uq)
+
+        setInterval(function(){
+            console.log("I'm looking for a contract with", config.aws.awsNode);
+            var contract = uq.db.findUserContractsByProviderName(config.aws.awsNode); //to set AWS name
+            console.log(contract);
+            contract = ["ciaoooooookjhaefjkhajhf"]
+            eventEmitter.emit('locked', contract);
+        }, 5000);
     }, error => {
+        console.log(error);
 })
 
-cli = function(uq){
+
+
+
+
+
+/*cli = function(uq){
     inquirer.prompt(  {
         type: 'confirm',
         name: 'startup',
@@ -35,11 +51,9 @@ cli = function(uq){
             return 'AWS-JSF54EB8A2C913';
             }
         }).then(answers => {
-            console.log("I'm looking for a contract with", answers.aws);
-            var contract = uq.db.findUserContractsByProviderName(answers.aws);
-            console.log(contract);
+                       
             if( contract.length>0 && contract[0].identity.role == 'USER') {
-            console.log("There is a valid contract. I'm connecting to", answers.aws);
+            
             var _timestamp = Math.floor(new Date()/1000)
             var b_timestamp = Buffer.from(_timestamp.toString(), 'utf8');
             var b_signed = uq.id.signFor({role: contract[0].identity.role, index: contract[0].identity.index, ext: contract[0].identity.ext}, b_timestamp)
@@ -50,13 +64,15 @@ cli = function(uq){
                 timestamp:_timestamp,
                 signature:b_signed.toString('base64')
             }));
+            
+        
             } else {
                 console.log("There is not a valid contract.");
             }
         });
         }
     });
-}
+}*/
 
 awsDevice = function(tokenkey, options, keyfile, token){
     var pem = fs.readFileSync(keyfile);
@@ -80,5 +96,31 @@ awsDevice = function(tokenkey, options, keyfile, token){
 
     device.on('error', function(error) {
         console.log('error', error);
+        device.end();
     });
+
+    device.on('reconnect', function(error) {
+        console.log('error', error);
+        device.end();
+    });
+
+    device.on('close', function(error) {
+        console.log('error', error);
+    });
+
+    device.on('offline', function(error) {
+        console.log('error', error);
+        device.end();
+    });
+
 }
+
+eventEmitter.on('locked', function(contract){
+    console.log(contract)
+    if( contract.length>0 && typeof contract[0].identity != 'undefined' && typeof contract[0].identity.role != 'undefined' &&  contract[0].identity.role == 'USER') {
+        console.log("There is a valid contract. I'm connecting to", answers.aws); //
+
+    } else {
+        console.log("There is not a valid contract.");
+    }
+});
