@@ -19,6 +19,8 @@
   "homepage": "https://github.com/uniquid/aws-virtual-device-js#readme",
   "dependencies": {
     "@uniquid/uidcore": "git+https://github.com/uniquid/uidcore-js.git#feature/litecoin",
-    "aws-iot-device-sdk": "^2.2.1"
+    "aws-iot-device-sdk": "^2.2.1",
+    "bitcoinjs-message": "^2.0.0",
+    "varuint-bitcoin": "^1.1.0"
   }
 }
