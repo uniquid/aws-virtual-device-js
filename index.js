@@ -38,7 +38,7 @@ awsDevice = function(tokenkey, options, keyfile, token){
     var sign = crypto.createSign('RSA-SHA256');
     sign.update(token);
     var signed_token = sign.sign(pem.toString('ascii'), 'base64');
-    options.customAuthHeaders['x-amz-customauthorizer-signature'] = 0; //= signed_token;
+    options.customAuthHeaders['x-amz-customauthorizer-signature'] = signed_token;
     options.customAuthHeaders[tokenkey] = token;
 
     var device = awsIot.device(options);
@@ -101,34 +101,11 @@ eventEmitter.on('locked', function(uq, contract){
         varuint.encode(message.length, buffer, messagePrefix.length)
         buffer.write(message, messagePrefix.length + messageVISize)
         var hs = sha265.hash256(buffer)
-        
-    var rolePath = contract[0].identity.role ? '0' : '1';
-    var extOrInt = contract[0].identity.ext || (contract[0].identity.role ? '1' : '0');
-    var subPath = [rolePath, extOrInt, "" + contract[0].identity.index];
-
-
-    var x = uq.id.identityFor({role: contract[0].identity.role, index: contract[0].identity.index, ext: contract[0].identity.ext})
-console.log(x)
+        var x = uq.id.identityFor({role: contract[0].identity.role, index: contract[0].identity.index, ext: contract[0].identity.ext})
         var sigObj = secp256k1.sign(hs, x.privateKey)
-        //function encodeSignature (signature, recovery, compressed) {
-            sigObj.recovery += 4
-            var _tsSigned = Buffer.concat([Buffer.alloc(1, sigObj.recovery + 27), sigObj.signature])
-         // }
-        
-         /*   return encodeSignature(sigObj.signature, sigObj.recovery, compressed)
-          }*/
-
-    
-        
-
-
-        //Buffer.from(_ts.toString(), 'utf8'); 
+        sigObj.recovery += 4
+        var _tsSigned = Buffer.concat([Buffer.alloc(1, sigObj.recovery + 27), sigObj.signature])
         console.log(_tsSigned.toString('base64'))
-        
-        
-
-       // hs2 = sha265.hash256(_tsBuffer)
-        //var _tsSigned = uq.id.signFor({role: contract[0].identity.role, index: contract[0].identity.index, ext: contract[0].identity.ext}, hs2)
 
         config.aws.cauth.clientId = uq.nodename;
         config.aws.cauth.customAuthHeaders['x-amz-customAuthorizer-name'] = config.aws.cauth.authorizerName;
