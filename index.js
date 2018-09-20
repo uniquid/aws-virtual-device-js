@@ -1,9 +1,9 @@
 const argv = require('minimist')(process.argv.slice(2));
 console.log(argv);
 if(typeof argv.config != 'undefined' )
-    const config = require(argv.config);
+    var config = require(argv.config);
 else
-    const config = require('./config.js');
+    var config = require('./config.js');
 
 const { standardUQNodeFactory } = require('@uniquid/uidcore')
 var awsIot = require('aws-iot-device-sdk');
