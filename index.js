@@ -10,10 +10,10 @@ var varuint = require('varuint-bitcoin')
 // create some handlers for bitmask rpc over mqtt
 const RPC_METHOD_ECHO = 34
 config.node.rpcHandlers = [
-  {
-    m: RPC_METHOD_ECHO,  // the bit number associated to method
-    h: (params ) => `ECHO: ${params}`  // function to call when bitmask method is invoked
-  }
+    {
+        m: RPC_METHOD_ECHO,  // the bit number associated to method
+        h: (params) => `ECHO: ${params}`  // function to call when bitmask method is invoked
+    }
 ]
 
 var eventEmitter = new events.EventEmitter();
@@ -22,18 +22,18 @@ var eventEmitter = new events.EventEmitter();
 standardUQNodeFactory(config.node)
     .then(uq => {
         console.log('MY NAME IS:', uq.nodename);
-        var si = setInterval(function(){
+        var si = setInterval(function () {
             console.log("I'm looking for a contract with", config.aws.awsNode);
             var contract = uq.db.findUserContractsByProviderName(config.aws.awsNode);
-            if(contract.length>0){
+            if (contract.length > 0) {
                 eventEmitter.emit('locked', uq, contract);
             }
         }, 5000);
     }, error => {
         console.log(error);
-})
+    })
 
-awsDevice = function(tokenkey, options, keyfile, token){
+awsDevice = function (tokenkey, options, keyfile, token) {
     var pem = fs.readFileSync(keyfile);
     var sign = crypto.createSign('RSA-SHA256');
     sign.update(token);
@@ -42,69 +42,56 @@ awsDevice = function(tokenkey, options, keyfile, token){
     options.customAuthHeaders[tokenkey] = token;
 
     var device = awsIot.device(options);
-                
-    device.on('connect', function() {
+
+    device.on('connect', function () {
         console.log('connect');
         device.subscribe('mytopic');
         device.emit('publish') //publish message after che connection
     });
-            
-    device.on('publish', function() {
+
+    device.on('publish', function () {
         //console.log('publish');
-        setTimeout(function(){ //publish message every 5 seconds
-            data = {timestamp:Date.now()}
+        setTimeout(function () { //publish message every 5 seconds
+            data = { timestamp: Date.now() }
             device.publish('mytopic', JSON.stringify(data));
             device.emit('publish')
-        },5000);
+        }, 5000);
     });
 
-    device.on('message', function(topic, payload) {
+    device.on('message', function (topic, payload) {
         console.log('message', topic, payload.toString());
     });
 
-    device.on('error', function(error) {
+    device.on('error', function (error) {
         console.log('error-error', error);
         device.end();
     });
 
-    device.on('reconnect', function(error) {
+    device.on('reconnect', function (error) {
         console.log('error-reconnect');
         device.end();
     });
 
-    device.on('close', function(error) {
+    device.on('close', function (error) {
         console.log('error-close');
         synco = false;
     });
 
-    device.on('offline', function(error) {
+    device.on('offline', function (error) {
         console.log('error-offline');
         device.end();
     });
 }
 
-eventEmitter.on('locked', function(uq, contract){
-    if( synco == true)
+eventEmitter.on('locked', function (uq, contract) {
+    if (synco == true)
         console.log("AWS IoT connection already exist.");
-    else if( synco == false && contract.length>0 && typeof contract[0].identity != 'undefined' && typeof contract[0].identity.role != 'undefined' &&  contract[0].identity.role == 'USER') {
+    else if (synco == false && contract.length > 0 && typeof contract[0].identity != 'undefined' && typeof contract[0].identity.role != 'undefined' && contract[0].identity.role == 'USER') {
         synco = true;
         console.log("There is a valid contract. I'm connecting to", contract[0].providerName);
         var _ts = Date.now();
-        var message = _ts.toString();
 
-        messagePrefix = '\u0018Bitcoin Signed Message:\n'
-        if (!Buffer.isBuffer(messagePrefix)) messagePrefix = Buffer.from(messagePrefix, 'utf8')
-          
-        var messageVISize = varuint.encodingLength(message.length)
-        var buffer = Buffer.allocUnsafe(messagePrefix.length + messageVISize + message.length)
-        messagePrefix.copy(buffer, 0)
-        varuint.encode(message.length, buffer, messagePrefix.length)
-        buffer.write(message, messagePrefix.length + messageVISize)
-        var hs = sha265.hash256(buffer)
-        var x = uq.id.identityFor({role: contract[0].identity.role, index: contract[0].identity.index, ext: contract[0].identity.ext})
-        var sigObj = secp256k1.sign(hs, x.privateKey)
-        sigObj.recovery += 4
-        var _tsSigned = Buffer.concat([Buffer.alloc(1, sigObj.recovery + 27), sigObj.signature])
+        var _tsSigned = uq.id.signMessage(_ts.toString(), contract[0].identity)
         console.log(_tsSigned.toString('base64'))
 
         config.aws.cauth.clientId = uq.nodename;
@@ -112,7 +99,7 @@ eventEmitter.on('locked', function(uq, contract){
 
         awsDevice(config.aws.tokenKey, config.aws.cauth, config.aws.keyFile, JSON.stringify({
             userAddress: contract[0].identity.address,
-            timestamp:_ts,
+            timestamp: _ts,
             signature: _tsSigned.toString('base64')
         }));
     } else {
