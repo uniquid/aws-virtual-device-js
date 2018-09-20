@@ -1,11 +1,10 @@
-const config = require("./myconfig.js");
+const argv = require('minimist')(process.argv.slice(2));
+console.log(argv);
+const config = require(argv.config);
 const { standardUQNodeFactory } = require('@uniquid/uidcore')
 var awsIot = require('aws-iot-device-sdk');
 var crypto = require('crypto'), fs = require('fs'), events = require('events');
 var synco = false;
-const secp256k1 = require('secp256k1');
-const sha265 = require('lcoin/lib/crypto/sha256');
-var varuint = require('varuint-bitcoin')
 
 // create some handlers for bitmask rpc over mqtt
 const RPC_METHOD_ECHO = 34
@@ -45,7 +44,7 @@ awsDevice = function (tokenkey, options, keyfile, token) {
 
     device.on('connect', function () {
         console.log('connect');
-        device.subscribe('mytopic');
+        device.subscribe(config.aws.awsTopic);
         device.emit('publish') //publish message after che connection
     });
 
@@ -53,7 +52,7 @@ awsDevice = function (tokenkey, options, keyfile, token) {
         //console.log('publish');
         setTimeout(function () { //publish message every 5 seconds
             data = { timestamp: Date.now() }
-            device.publish('mytopic', JSON.stringify(data));
+            device.publish(config.aws.awsTopic, JSON.stringify(data));
             device.emit('publish')
         }, 5000);
     });

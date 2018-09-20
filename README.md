@@ -17,4 +17,4 @@ npm install
 update `config.js` file and add your private-key file (PEM format) in `secure` directory
 
 ### run
-`npm start`
+`npm run virtual-device -- --config=./yourconfigfile.js`

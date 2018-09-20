@@ -14,7 +14,8 @@ config.aws = {
     },
     keyFile: "./secure/xxx",
     tokenKey: "xxx",
-    awsNode: "xxx"
+    awsNode: "AWS-NODE",
+    awsTopic: 'home'
 }
 
 config.node = {
