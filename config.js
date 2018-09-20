@@ -4,7 +4,7 @@ config.aws = {
     cauth: {
         host: "xxx",
         clientId: "",
-        authorizerName: "xxx",
+        authorizerName: "UniquIDCustomAuth",
         debug: false,
         protocol: 'wss-custom-auth',
         customAuthHeaders:  {
@@ -12,8 +12,8 @@ config.aws = {
             'x-amz-customauthorizer-signature':''
         }
     },
-    keyFile: "./secure/xxx",
-    tokenKey: "xxx",
+    keyFile: "./secure/prvkey.pem",
+    tokenKey: "UniquIDToken",
     awsNode: "AWS-NODE",
     awsTopic: 'home'
 }
