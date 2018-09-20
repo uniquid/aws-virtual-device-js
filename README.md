@@ -19,4 +19,8 @@ update `config.js` file and add your private-key file (PEM format) in `secure` d
 `config.js` has some default values
 
 ### run
-`npm run virtual-device -- --config=./yourconfigfile.js`
+`npm run virtual-device -- --config=./yourconfigfile.js` if you want change the config file name
+
+or
+
+`npm start` to start with config.js (same as `npm run virtual-device -- --config=./config.js`)

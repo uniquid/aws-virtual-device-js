@@ -2,7 +2,7 @@ var config = { aws:{}, node:{} };
 
 config.aws = {
     cauth: {
-        host: "xxx",
+        host: "HOST",
         clientId: "",
         authorizerName: "UniquIDCustomAuth",
         debug: false,
@@ -20,12 +20,12 @@ config.aws = {
 
 config.node = {
     home: "./data",
-    mqttHost: "tcp://xxx:1883",
+    mqttHost: "tcp://MQTT_HOST:1883",
     bcSeeds: ["testnet-seed.litecointools.com","seed-b.litecoin.loshan.co.uk","dnsseed-testnet.thrasher.io"],
-    registryUrl: "http://xxx:8080",
+    registryUrl: "http://REGISTRY_URL:8080",
     requestTimeout: 10000,
     nodenamePrefix: "AWS-JS",
-    announceTopic: "UIDLitecoin/announce"
+    announceTopic: "TOPIC_ANNOUNCE"
 }
 
 module.exports = config;
