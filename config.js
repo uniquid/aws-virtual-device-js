@@ -25,7 +25,8 @@ config.node = {
     registryUrl: "http://REGISTRY_URL:8080",
     requestTimeout: 10000,
     nodenamePrefix: "AWS-JS",
-    announceTopic: "TOPIC_ANNOUNCE"
+    announceTopic: "TOPIC_ANNOUNCE",
+    network: "NETWORK"
 }
 
 module.exports = config;

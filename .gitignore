@@ -5,3 +5,4 @@ package-lock.json
 myconfig.js
 prvkey.pem
 pubkey.pem
+regconf.js
