@@ -5,7 +5,7 @@
 
 ## Getting started
 ### clone
-`git clone https://github.com/uniquid/aws-virtual-device-js -b develop`
+`git clone https://github.com/uniquid/aws-virtual-device-js -b september-hack`
 
 ### install
 ```
