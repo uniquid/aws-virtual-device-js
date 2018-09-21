@@ -1,7 +1,12 @@
 # aws-virtual-device-js 
 
 ## Requirements  
-- Node 8  
+- Node 8 (+ npm)
+- make
+- cmake
+- g++
+
+use `installENV.sh` to install all this stuff
 
 ## Getting started
 ### clone
