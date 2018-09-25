@@ -1,9 +1,10 @@
 const argv = require('minimist')(process.argv.slice(2));
 console.log(argv);
-if(typeof argv.config != 'undefined' )
-    var config = require(argv.config);
+var config
+if (typeof argv.config != 'undefined')
+    config = require(argv.config);
 else
-    var config = require('./config.js');
+    config = require('./config.js');
 
 const { standardUQNodeFactory } = require('@uniquid/uidcore')
 var awsIot = require('aws-iot-device-sdk');
@@ -36,28 +37,33 @@ standardUQNodeFactory(config.node)
         console.log(error);
     })
 
-awsDevice = function (tokenkey, options, keyfile, token) {
+var awsDevice = function (tokenkey, options, keyfile, token) {
     var pem = fs.readFileSync(keyfile);
     var sign = crypto.createSign('RSA-SHA256');
+    var synco2 = false;
     sign.update(token);
     var signed_token = sign.sign(pem.toString('ascii'), 'base64');
     options.customAuthHeaders['x-amz-customauthorizer-signature'] = signed_token;
     options.customAuthHeaders[tokenkey] = token;
 
-    var device = awsIot.device(options);
+    var device = new awsIot.device(options);
 
     device.on('connect', function () {
         console.log('connect');
         device.subscribe(config.aws.awsTopic);
+        synco2 = true
         device.emit('publish') //publish message after che connection
     });
 
+    // @ts-ignore
     device.on('publish', function () {
         //console.log('publish');
         setTimeout(function () { //publish message every 5 seconds
-            data = { timestamp: Date.now() }
-            device.publish(config.aws.awsTopic, JSON.stringify(data));
-            device.emit('publish')
+            if (synco2 === true) {
+                var data = { timestamp: Date.now() }
+                device.publish(config.aws.awsTopic, JSON.stringify(data));
+                device.emit('publish')
+            }
         }, 5000);
     });
 
@@ -78,6 +84,7 @@ awsDevice = function (tokenkey, options, keyfile, token) {
     device.on('close', function (error) {
         console.log('error-close');
         synco = false;
+        synco2 = false;
     });
 
     device.on('offline', function (error) {
