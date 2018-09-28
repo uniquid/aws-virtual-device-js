@@ -1,1 +1,1 @@
-docker build -t uniquid/aws-virtual-device-js .
+docker build -t aws-virtual-device-js .
