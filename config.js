@@ -12,7 +12,7 @@ config.aws = {
             'x-amz-customauthorizer-signature':''
         }
     },
-    keyFile: "./secure/prvkey.pem",
+    key: "",
     tokenKey: "UniquIDToken",
     awsNode: "AWS-NODE",
     awsTopic: 'home'

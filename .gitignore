@@ -6,3 +6,4 @@ myconfig.js
 prvkey.pem
 pubkey.pem
 regconf.js
+setENV.sh

@@ -6,6 +6,31 @@ if (typeof argv.config != 'undefined')
 else
     config = require('./config.js');
 
+if(typeof argv.noenv == 'undefined'){
+    var aws_agent_config = JSON.parse(process.env.AWS_AGENT_CONFIG);
+    config.aws.cauth.host = aws_agent_config.AwsEndpointAddress;
+    config.aws.awsNode = aws_agent_config.AwsAgentName;
+    config.aws.tokenKey = aws_agent_config.AwsTokenKey;
+    config.aws.cauth.authorizerName = aws_agent_config.AwsAuthorizerName
+
+    var skey = JSON.stringify(aws_agent_config.AwsPrivateKey)
+    var jkey = JSON.parse(skey);
+    config.aws.key = jkey.join('\n');
+
+    config.node.mqttHost = aws_agent_config.MqttUrl
+    config.node.announceTopic = aws_agent_config.MqttTopic
+    config.node.registryUrl = aws_agent_config.RegistryUrl
+    
+    var snet = aws_agent_config.Network.split('-')
+    if(snet[1]=="regtest")
+        config.node.network = "uqregtest"
+    else 
+        config.node.network = snet[1]
+    
+    delete config.node.nodenamePrefix
+    delete config.node.bcSeeds
+}
+
 const { standardUQNodeFactory } = require('@uniquid/uidcore')
 var awsIot = require('aws-iot-device-sdk');
 var crypto = require('crypto'), fs = require('fs'), events = require('events');
@@ -26,6 +51,7 @@ var eventEmitter = new events.EventEmitter();
 standardUQNodeFactory(config.node)
     .then(uq => {
         console.log('MY NAME IS:', uq.nodename);
+        console.log('MY PUB IS:', uq.id.getBaseXpub());
         var si = setInterval(function () {
             console.log("I'm looking for a contract with", config.aws.awsNode);
             var contract = uq.db.findUserContractsByProviderName(config.aws.awsNode);
@@ -37,12 +63,17 @@ standardUQNodeFactory(config.node)
         console.log(error);
     })
 
-var awsDevice = function (tokenkey, options, keyfile, token) {
-    var pem = fs.readFileSync(keyfile);
+var awsDevice = function (tokenkey, options, key, token) {
+    if(typeof argv.noenv != 'undefined'){
+        var pem = fs.readFileSync(key); 
+        var _key = pem.toString('ascii');
+    } else {
+        var _key = key
+    } 
     var sign = crypto.createSign('RSA-SHA256');
     var synco2 = false;
     sign.update(token);
-    var signed_token = sign.sign(pem.toString('ascii'), 'base64');
+    var signed_token = sign.sign(_key, 'base64');
     options.customAuthHeaders['x-amz-customauthorizer-signature'] = signed_token;
     options.customAuthHeaders[tokenkey] = token;
 
@@ -107,7 +138,7 @@ eventEmitter.on('locked', function (uq, contract) {
         config.aws.cauth.clientId = uq.nodename;
         config.aws.cauth.customAuthHeaders['x-amz-customAuthorizer-name'] = config.aws.cauth.authorizerName;
 
-        awsDevice(config.aws.tokenKey, config.aws.cauth, config.aws.keyFile, JSON.stringify({
+        awsDevice(config.aws.tokenKey, config.aws.cauth, config.aws.key, JSON.stringify({
             userAddress: contract[0].identity.address,
             timestamp: _ts,
             signature: _tsSigned.toString('base64')
