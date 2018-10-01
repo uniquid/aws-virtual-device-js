@@ -1,2 +1,2 @@
-echo $NODENAME > data/NODENAME/node.name
+printf $NODENAME > data/NODENAME/node.name
 npm start
