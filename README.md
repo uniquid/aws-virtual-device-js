@@ -26,11 +26,40 @@ update `config.js` file and add your private-key file (PEM format) in `secure` d
 ### run
 `npm run virtual-device -- --config=./yourconfigfile.js` if you want change the config file name
 
-add `--noenv` to avoid using environmental variables
-
 or
 
 `npm start` to start with config.js (same as `npm run virtual-device -- --config=./config.js`)
+
+add `--noenv` to avoid using environmental variables
+
+#### environmental variables
+```
+export AWS_AGENT_CONFIG=$(cat configfile_from_cli.json)
+```
+or
+
+```
+export AWS_AGENT_CONFIG='
+{
+  "orgId": "...",
+  "mqttUrl": "tcp://...:1883",
+  "mqttTopic": "...",
+  "registryUrl": "http://...:...",
+  "awsAuthorizerName": "...",
+  "awsPrivateKey": [
+    "-----BEGIN RSA PRIVATE KEY-----",
+    "...",
+    "...",
+    "...",
+    "-----END RSA PRIVATE KEY-----"
+  ],
+  "awsTokenKey": "...",
+  "awsAgentName": "...",
+  "awsEndpointAddress": "...",
+  "network": "..."
+}
+'
+```
 
 ## Push to AWS repository    
 `./docker-build` builds an image named `aws-virtual-device-js`    
