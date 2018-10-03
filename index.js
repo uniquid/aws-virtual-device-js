@@ -139,6 +139,7 @@ eventEmitter.on('locked', function (uq, contract) {
         var _tsSigned = uq.id.signMessage(_ts.toString(), contract[0].identity)
         console.log(_tsSigned.toString('base64'))
 
+        config.aws.awsTopic = uq.nodename; 
         config.aws.cauth.clientId = uq.nodename;
         config.aws.cauth.customAuthHeaders['x-amz-customAuthorizer-name'] = config.aws.cauth.authorizerName;
 
