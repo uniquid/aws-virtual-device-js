@@ -22,14 +22,18 @@ if(typeof argv.noenv == 'undefined'){
     config.node.registryUrl = aws_agent_config.registryUrl
     
     var snet = aws_agent_config.network.split('-')
-    if(snet[1]=="regtest")
-        config.node.network = "uqregtest"
-    else 
-        config.node.network = snet[1]
-    
+
     delete config.node.nodenamePrefix
-    delete config.node.bcSeeds
+} else {
+    var snet = config.node.network.split('-')
 }
+
+if(snet[1]=="regtest")
+    config.node.network = "uqregtest"
+else 
+    config.node.network = snet[1]
+
+delete config.node.bcSeeds
 
 const { standardUQNodeFactory } = require('@uniquid/uidcore')
 var awsIot = require('aws-iot-device-sdk');
