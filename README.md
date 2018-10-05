@@ -10,7 +10,7 @@ use `installENV.sh` to install all this stuff
 
 ## Getting started
 ### clone
-`git clone https://github.com/uniquid/aws-virtual-device-js -b develop`
+`git clone https://github.com/uniquid/aws-virtual-device-js`
 
 ### install
 ```
