@@ -23,6 +23,25 @@ update `config.js` file and add your private-key file (PEM format) in `secure` d
 
 `config.js` has some default values
 
+#### network
+```
+- ltc-main -> main
+- ltc-testnet -> testnet
+- ltc-regtest -> uqregtest
+
+default: ltc-main 
+```
+#### lcoin log level (bcLogLevel)
+```
+- error
+- warning
+- info
+- debug
+- spam
+
+default: info 
+```
+
 ### run
 `npm run virtual-device -- --config=./yourconfigfile.js` if you want change the config file name
 

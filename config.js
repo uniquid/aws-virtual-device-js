@@ -29,13 +29,14 @@ config.aws = {
 
 config.node = {
     home: "./data",
-    mqttHost: "tcp://MQTT_HOST:1883",
+    mqttHost: "tcp://appliance4.uniquid.co:1883",
     bcSeeds: ["testnet-seed.litecointools.com","seed-b.litecoin.loshan.co.uk","dnsseed-testnet.thrasher.io"],
     registryUrl: "http://REGISTRY_URL:8080",
     requestTimeout: 10000,
     nodenamePrefix: "AWS-JS",
     announceTopic: "TOPIC_ANNOUNCE",
-    network: "NETWORK"
+    bcLogLevel: 'info',
+    network: "ltc-testnet"
 }
 
 module.exports = config;
