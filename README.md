@@ -41,7 +41,7 @@ the configuration file has higher priority
 - debug
 - spam
 
-default: info 
+default: error 
 ```
 
 ### run

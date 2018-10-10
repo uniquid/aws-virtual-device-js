@@ -35,7 +35,7 @@ config.node = {
     requestTimeout: 10000,
     nodenamePrefix: "AWS-JS",
     announceTopic: "TOPIC_ANNOUNCE",
-    bcLogLevel: 'info',
+    bcLogLevel: 'error',
     network: "ltc-testnet"
 }
 
