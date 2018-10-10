@@ -29,7 +29,9 @@ update `config.js` file and add your private-key file (PEM format) in `secure` d
 - ltc-testnet -> testnet
 - ltc-regtest -> uqregtest
 
-default: ltc-main 
+default in config file: ltc-testnet
+default in lcoin settings: main
+the configuration file has higher priority
 ```
 #### lcoin log level (bcLogLevel)
 ```

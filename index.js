@@ -68,7 +68,7 @@ standardUQNodeFactory(config.node)
         console.log('MY NAME IS:', uq.nodename);
         console.log('MY PUB IS:', uq.id.getBaseXpub());
         var si = setInterval(function () {
-            eventEmitter.emit('looking', config.aws, uq, contract);
+            eventEmitter.emit('looking', config.aws, uq);
         }, 5000);
     }, error => {
         console.log(error);
@@ -136,7 +136,7 @@ var awsDevice = function (awsConfig, token) {
     });
 }
 
-eventEmitter.on('looking', function (awsConfig, uq, contract) {
+eventEmitter.on('looking', function (awsConfig, uq) {
     if(oshootLookingLog == false) {
         console.log("I'm looking for a contract with", awsConfig.awsNode);
         oshootLookingLog = true;

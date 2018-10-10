@@ -29,7 +29,7 @@ config.aws = {
 
 config.node = {
     home: "./data",
-    mqttHost: "tcp://appliance4.uniquid.co:1883",
+    mqttHost: "tcp://MQTT_BROKER:1883",
     bcSeeds: ["testnet-seed.litecointools.com","seed-b.litecoin.loshan.co.uk","dnsseed-testnet.thrasher.io"],
     registryUrl: "http://REGISTRY_URL:8080",
     requestTimeout: 10000,
