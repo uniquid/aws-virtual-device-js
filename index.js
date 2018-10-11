@@ -173,7 +173,7 @@ eventEmitter.on('locked', function (awsConfig, uq, contract) {
     }));
 });
 
-var sin_wave_trigger = setInterval(function(){
+var level_looper = setInterval(function(){
     var instant = 1800 + 50*Math.sin(idx);
     var _level = level;
 
