@@ -49,7 +49,7 @@ delete config.node.bcSeeds;
 const { standardUQNodeFactory } = require('@uniquid/uidcore');
 var awsIot = require('aws-iot-device-sdk');
 var crypto = require('crypto'), fs = require('fs'), events = require('events');
-var oshootLookingLog = false, awsRunned = false;
+var oshootLookingLog = false, awsRunned = false, level = 0, idx = 0;
 
 // create some handlers for bitmask rpc over mqtt
 const RPC_METHOD_ECHO = 34
@@ -102,7 +102,7 @@ var awsDevice = function (awsConfig, token) {
         //console.log('publish');
         setTimeout(function () { //publish message every 5 seconds
             if (synco === true) {
-                var data = { timestamp: Date.now() }
+                var data = { timestamp: Date.now(), level: level }
                 device.publish(awsConfig.awsTopic, JSON.stringify(data));
                 device.emit('publish')
             }
@@ -172,3 +172,14 @@ eventEmitter.on('locked', function (awsConfig, uq, contract) {
         signature: _tsSigned.toString('base64')
     }));
 });
+
+var sin_wave_trigger = setInterval(function(){
+    var instant = 1800 + 50*Math.sin(idx);
+    var _level = level;
+
+    _level += instant; // increase the level
+    _level = _level < MAX_LEVEL ? _level : MAX_LEVEL; // clamp level to MAX_LEVEL
+    _level = _level > 0 ? _level : 0; // clamp level to 0
+
+    level = _level;
+}, 1000)
