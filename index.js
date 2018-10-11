@@ -178,7 +178,7 @@ var level_looper = setInterval(function(){
     var _level = level;
 
     _level += instant; // increase the level
-    _level = _level < MAX_LEVEL ? _level : MAX_LEVEL; // clamp level to MAX_LEVEL
+    _level = _level < Number.MAX_VALUE ? _level : Number.MAX_VALUE; // clamp level to MAX_LEVEL
     _level = _level > 0 ? _level : 0; // clamp level to 0
 
     level = _level;
