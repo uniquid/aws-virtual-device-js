@@ -173,13 +173,14 @@ eventEmitter.on('locked', function (awsConfig, uq, contract) {
     }));
 });
 
-var level_looper = setInterval(function(){
-    var instant = 1800 + 50*Math.sin(idx);
+var sinw_looper = setInterval(function(){
+    var instant = 1*Math.sin(50*idx+0);
     var _level = level;
 
     _level += instant; // increase the level
-    _level = _level < Number.MAX_VALUE ? _level : Number.MAX_VALUE; // clamp level to MAX_LEVEL
+    _level = _level < MAX_VALUE ? _level : MAX_VALUE; // clamp level to MAX_LEVEL
     _level = _level > 0 ? _level : 0; // clamp level to 0
 
     level = _level;
-}, 1000)
+    idx=idx+0.5;
+}, 500)
