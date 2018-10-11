@@ -177,5 +177,6 @@ var sinw_looper = setInterval(function(){
     var _sin = 1*Math.sin(50*t+0);
     sin = _sin;
     t = t + 0.5;
-    if(t == 1000) t = 0;
+    if(t == 1000)
+        t = 0;
 }, 500)
