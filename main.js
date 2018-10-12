@@ -8,7 +8,15 @@
  */
 
 const argv = require('minimist')(process.argv.slice(2));
-console.log(argv);
+const { standardUQNodeFactory } = require('@uniquid/uidcore');
+var awsIot = require('aws-iot-device-sdk');
+var crypto = require('crypto'), fs = require('fs'), events = require('events');
+var sineWave = require('./sineWave');
+var oshootLookingLog = false, awsRunned = false;
+
+
+sineWave.start(1, 50, 0, 0.5);
+
 
 if (typeof argv.config != 'undefined'){
     var config = require(argv.config);
@@ -45,11 +53,6 @@ if(snet[1]=="regtest") {
 }
 
 delete config.node.bcSeeds;
-
-const { standardUQNodeFactory } = require('@uniquid/uidcore');
-var awsIot = require('aws-iot-device-sdk');
-var crypto = require('crypto'), fs = require('fs'), events = require('events');
-var oshootLookingLog = false, awsRunned = false, sin = 0, t = 0;
 
 // create some handlers for bitmask rpc over mqtt
 const RPC_METHOD_ECHO = 34
@@ -102,8 +105,7 @@ var awsDevice = function (awsConfig, token) {
         //console.log('publish');
         setTimeout(function () { //publish message every 5 seconds
             if (synco === true) {
-                var data = { timestamp: Date.now(), sin: sin }
-                device.publish(awsConfig.awsTopic, JSON.stringify(data));
+                device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
                 device.emit('publish')
             }
         }, 5000);
@@ -172,12 +174,3 @@ eventEmitter.on('locked', function (awsConfig, uq, contract) {
         signature: _tsSigned.toString('base64')
     }));
 });
-
-var sinw_looper = setInterval(function(){
-    var _sin = 1*Math.sin(50*t+0);
-    sin = _sin;
-    t = t + 0.5;
-    if(t == 1000){
-        t = 0;
-    }
-}, 500)
