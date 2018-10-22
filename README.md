@@ -44,6 +44,9 @@ the configuration file has higher priority
 default: error 
 ```
 
+### install latest header's DB
+`npm run install-headers` Installs in aws-virtual-device's node-home the latest testnet headers from UQ's headers' backup repos
+
 ### run
 `npm run virtual-device -- --config=./yourconfigfile.js` if you want change the config file name
 
