@@ -84,16 +84,3 @@ export AWS_AGENT_CONFIG='
 }
 '
 ```
-
-## Push to AWS repository    
-`./docker-build` builds an image named `aws-virtual-device-js`    
-then you may exec    
-
-```
-./docker-login
-./docker-tag-latest aws-virtual-device-js
-./docker-push-latest aws-virtual-device-js
-```
-
-directly from https://github.com/uniquid/tenant-task-definition/ root folder, 
-as those 2 commands point to image name    
