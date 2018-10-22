@@ -1,0 +1,5 @@
+TAR_FILE=$1
+NODE_HOME_DIR=data
+
+echo "extracting $TAR_FILE into aws-virtual-device home dir: $NODE_HOME_DIR"
+tar -xf $TAR_FILE -C $NODE_HOME_DIR
