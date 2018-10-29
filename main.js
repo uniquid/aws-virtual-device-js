@@ -77,7 +77,7 @@ standardUQNodeFactory(config.node)
         console.log(error);
     })
 
-var awsDevice = function (awsConfig, token) {
+var awsDevice = function (uq, awsConfig, token) {
     if (typeof argv.noenv != 'undefined') {
         var pem = fs.readFileSync(awsConfig.key);
         var _key = pem.toString('ascii');
@@ -105,8 +105,13 @@ var awsDevice = function (awsConfig, token) {
         //console.log('publish');
         setTimeout(function () { //publish message every 5 seconds
             if (synco === true) {
-                device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
-                device.emit('publish')
+                var contract = uq.db.findUserContractsByProviderName(awsConfig.awsNode)
+                .filter(function (ctr) {
+                    if(ctr.revoked == null){
+                        device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
+                         
+                    }
+                });
             }
         }, 5000);
     });
@@ -170,7 +175,7 @@ eventEmitter.on('locked', function (awsConfig, uq, contract) {
     awsConfig.cauth.clientId = uq.nodename;
     awsConfig.cauth.customAuthHeaders['x-amz-customAuthorizer-name'] = awsConfig.cauth.authorizerName;
 
-    awsDevice(awsConfig, JSON.stringify({
+    awsDevice(uq, awsConfig, JSON.stringify({
         userAddress: contract[0].identity.address,
         timestamp: _ts,
         signature: _tsSigned.toString('base64')
