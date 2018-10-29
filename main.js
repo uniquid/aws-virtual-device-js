@@ -109,7 +109,7 @@ var awsDevice = function (uq, awsConfig, token) {
                 .filter(function (ctr) {
                     if(ctr.revoked == null){
                         device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
-                         
+                         device.emit('publish')
                     }
                 });
             }
