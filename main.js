@@ -104,14 +104,16 @@ var awsDevice = function (uq, awsConfig, token) {
     device.on('publish', function () {
         //console.log('publish');
         setTimeout(function () { //publish message every 5 seconds
-            if (synco === true) {
+            if (synco === true) {                
                 var contract = uq.db.findUserContractsByProviderName(awsConfig.awsNode)
-                .filter(function (ctr) {
-                    if(ctr.revoked == null){
-                        device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
-                         device.emit('publish')
-                    }
-                });
+                .filter(function (ctr) { return !ctr.revoked });
+
+                if (contract.length > 0) {
+                    device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
+                    device.emit('publish');
+                } else {
+                    device.end();
+                }
             }
         }, 5000);
     });
