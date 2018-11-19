@@ -18,13 +18,13 @@ var oshootLookingLog = false, awsRunned = false;
 sineWave.start(1, 50, 0, 0.5);
 
 
-if (typeof argv.config != 'undefined'){
+if (typeof argv.config != 'undefined') {
     var config = require(argv.config);
 } else {
     var config = require('./config.js');
 }
 
-if(typeof argv.noenv == 'undefined'){
+if (typeof argv.noenv == 'undefined') {
     var aws_agent_config = JSON.parse(process.env.AWS_AGENT_CONFIG);
     config.aws.cauth.host = aws_agent_config.awsEndpointAddress;
     config.aws.awsNode = aws_agent_config.awsAgentName;
@@ -38,7 +38,7 @@ if(typeof argv.noenv == 'undefined'){
     config.node.mqttHost = aws_agent_config.mqttUrl;
     config.node.announceTopic = aws_agent_config.mqttTopic;
     config.node.registryUrl = aws_agent_config.registryUrl;
-    
+
     var snet = aws_agent_config.network.split('-');
 
     delete config.node.nodenamePrefix;
@@ -46,7 +46,7 @@ if(typeof argv.noenv == 'undefined'){
     var snet = config.node.network.split('-');
 }
 
-if(snet[1]=="regtest") {
+if (snet[1] == "regtest") {
     config.node.network = "uqregtest";
 } else {
     config.node.network = snet[1];
@@ -78,12 +78,12 @@ standardUQNodeFactory(config.node)
     })
 
 var awsDevice = function (awsConfig, token) {
-    if(typeof argv.noenv != 'undefined') {
-        var pem = fs.readFileSync(awsConfig.key); 
+    if (typeof argv.noenv != 'undefined') {
+        var pem = fs.readFileSync(awsConfig.key);
         var _key = pem.toString('ascii');
     } else {
         var _key = awsConfig.key;
-    } 
+    }
     var sign = crypto.createSign('RSA-SHA256');
     var synco = false;
     sign.update(token);
@@ -139,21 +139,23 @@ var awsDevice = function (awsConfig, token) {
 }
 
 eventEmitter.on('looking', function (awsConfig, uq) {
-    if(oshootLookingLog == false) {
+    if (oshootLookingLog == false) {
         console.log("I'm looking for a contract with", awsConfig.awsNode);
         oshootLookingLog = true;
     }
-    if(awsRunned == false) {
-        var contract = uq.db.findUserContractsByProviderName(awsConfig.awsNode);
-        if (contract.length > 0){
-            if(typeof contract[0].identity != 'undefined' && typeof contract[0].identity.role != 'undefined' && contract[0].identity.role == 'USER') {
+    if (awsRunned == false) {
+        var contract = uq.db.findUserContractsByProviderName(awsConfig.awsNode)
+            .filter(function (ctr) { return !ctr.revoked });
+
+        if (contract.length > 0) {
+            if (typeof contract[0].identity != 'undefined' && typeof contract[0].identity.role != 'undefined' && contract[0].identity.role == 'USER') {
                 eventEmitter.emit('locked', awsConfig, uq, contract);
                 awsRunned = true;
             } else {
                 console.log("There is a contract but it is not valid.");
                 oshootLookingLog = false;
             }
-        } 
+        }
     }
 });
 
@@ -164,7 +166,7 @@ eventEmitter.on('locked', function (awsConfig, uq, contract) {
     var _tsSigned = uq.id.signMessage(_ts.toString(), contract[0].identity)
     console.log(_tsSigned.toString('base64'))
 
-    awsConfig.awsTopic = uq.nodename; 
+    awsConfig.awsTopic = uq.nodename;
     awsConfig.cauth.clientId = uq.nodename;
     awsConfig.cauth.customAuthHeaders['x-amz-customAuthorizer-name'] = awsConfig.cauth.authorizerName;
 
