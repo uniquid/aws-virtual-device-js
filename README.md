@@ -84,3 +84,9 @@ export AWS_AGENT_CONFIG='
 }
 '
 ```
+
+#### data to send to AWS IoT
+
+It's possible to send any kind of data using `device.publish`.    
+The second parameter of the function is the `string` that will be sent to AWS IoT.    
+You can create your own function that returns a `string` or `json object` (to stringify) that will be sent to AWS.    
