@@ -2,7 +2,7 @@ NETWORK=${1:-testnet}
 
 HOST=http://35.180.120.244
 
-TAR_FILE=${NETWORK}_db_latest.tar
+TAR_FILE=${NETWORK}_db_latest.tgz
 TAR_FILE_MD5=${TAR_FILE}_md5
 
 REMOTE_TAR_FILE=$HOST/$TAR_FILE
