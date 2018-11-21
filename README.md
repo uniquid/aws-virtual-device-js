@@ -45,7 +45,8 @@ default: error
 ```
 
 ### install latest header's DB
-`npm run install-headers` Installs in aws-virtual-device's node-home the latest testnet headers from UQ's headers' backup repos
+`npx ltc-backup install testnet -t data` Installs in aws-virtual-device's node-home the latest testnet headers from UQ's headers' backup repos   
+checkout [https://github.com/uniquid/uidcore-js#ltc-backup-cli-tool](https://github.com/uniquid/uidcore-js#ltc-backup-cli-tool)
 
 ### run
 `npm run virtual-device -- --config=./yourconfigfile.js` if you want change the config file name
