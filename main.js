@@ -11,11 +11,11 @@ const argv = require('minimist')(process.argv.slice(2));
 const { standardUQNodeFactory } = require('@uniquid/uidcore');
 var awsIot = require('aws-iot-device-sdk');
 var crypto = require('crypto'), fs = require('fs'), events = require('events');
-var sineWave = require('./sineWave');
+var valve = require('./valve');
 var oshootLookingLog = false, awsRunned = false;
 
 
-sineWave.start(1, 50, 0, 0.5);
+valve.start(100, 1, 1);
 
 
 if (typeof argv.config != 'undefined') {
@@ -109,7 +109,7 @@ var awsDevice = function (uq, awsConfig, token) {
                 .filter(function (ctr) { return !ctr.revoked });
 
                 if (contract.length > 0) {
-                    device.publish(awsConfig.awsTopic, JSON.stringify(sineWave.getJSON()));
+                    device.publish(awsConfig.awsTopic, JSON.stringify(valve.getJSON()));
                     device.emit('publish');
                 } else {
                     device.end();
