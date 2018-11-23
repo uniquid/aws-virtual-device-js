@@ -45,7 +45,8 @@ default: error
 ```
 
 ### install latest header's DB
-`npm run install-headers` Installs in aws-virtual-device's node-home the latest testnet headers from UQ's headers' backup repos
+`npx ltc-backup install testnet -t data` Installs in aws-virtual-device's node-home the latest testnet headers from UQ's headers' backup repos   
+checkout [https://github.com/uniquid/uidcore-js#ltc-backup-cli-tool](https://github.com/uniquid/uidcore-js#ltc-backup-cli-tool)
 
 ### run
 `npm run virtual-device -- --config=./yourconfigfile.js` if you want change the config file name
@@ -84,3 +85,9 @@ export AWS_AGENT_CONFIG='
 }
 '
 ```
+
+#### data to send to AWS IoT
+
+It's possible to send any kind of data using `device.publish`.    
+The second parameter of the function is the `string` that will be sent to AWS IoT.    
+You can create your own function that returns a `string` or `json object` (to stringify) that will be sent to AWS.    
