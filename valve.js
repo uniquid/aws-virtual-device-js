@@ -9,7 +9,7 @@
 
 var valve = { level: 0, flow: 0, limit: 100 };
 
-valve.start = function(limit, time, delta){
+valve.start = function(limit, seconds, delta){
     valve.limit = limit;
     var valve_looper = setInterval(function(){
         _flow = valve.flow;
@@ -29,7 +29,7 @@ valve.start = function(limit, time, delta){
         }
         valve.level = _level;
         valve.flow = _flow;
-    }, time*1000);
+    }, seconds*1000);
 }
 
 valve.getJSON = function(){
