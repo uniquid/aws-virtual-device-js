@@ -84,3 +84,10 @@ export AWS_AGENT_CONFIG='
 }
 '
 ```
+
+### template
+``template/sinewave`` allows to run a ``sinewave generator`` using ``sineWave.start(amplitude, frequency, phase, sampling)``
+#### example
+With ``sineWave.start(1, 50, 0, 0.5)`` it's possibile start a sinewave generator that has an amplitude of 1@50Hz with phase of 0°. This sinewave is sampled every 0.5 seconds.
+#### output
+```{ timestamp: Date.now(), sin: sineWave.sin }```
