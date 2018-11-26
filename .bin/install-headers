@@ -1,3 +1,0 @@
-NETWORK=${1:-testnet}
-TAR_FILE=$(.bin/dl-headers $NETWORK | tail -n1) 
-.bin/extract-headers $TAR_FILE
