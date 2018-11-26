@@ -84,3 +84,7 @@ export AWS_AGENT_CONFIG='
 }
 '
 ```
+### template
+``template/valve`` allows to run a ``valve`` to increase ``level`` of tank every x seconds by a ``delta`` using ``valve.start(limit, seconds, delta)``
+#### example
+With ``valve.start(100, 1, 2)`` it's possibile start a valve that every 1 second incrase tank level by 2 up to 100, when the tank reaches the limit, the valve will answer again with 100 and then the valve will empty the tank up to 0 with the same mode as before.
