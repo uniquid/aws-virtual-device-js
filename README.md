@@ -85,6 +85,7 @@ export AWS_AGENT_CONFIG='
 '
 ```
 
+
 ### template
 ``template/sinewave`` allows to run a ``sinewave generator`` using ``sineWave.start(amplitude, frequency, phase, sampling)``
 #### example
