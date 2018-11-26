@@ -89,7 +89,7 @@ export AWS_AGENT_CONFIG='
 #### example
 With ``valve.start(100, 1, 2)`` it's possibile start a valve that every 1 second incrase tank level by 2 up to 100, when the tank reaches the limit, the valve will answer again with 100 and then the valve will empty the tank up to 0 with the same mode as before.
 #### output
-```{ timestamp: Date.now(), level: valve.level, flow: valve.flow, limit: valve.limit };```
+```{ timestamp: Date.now(), level: valve.level, flow: valve.flow, limit: valve.limit }```
 
 ``valve.flow`` reais the flow direction of the valve
 ```
