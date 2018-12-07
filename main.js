@@ -52,7 +52,8 @@ if (snet[1] == "regtest") {
     config.node.network = snet[1];
 }
 
-delete config.node.bcSeeds;
+//delete config.node.bcSeeds;
+config.node.bcSeeds = [ 'testnet-seed.litecointools.com', 'dnsseed-testnet.thrasher.io' ];
 
 // create some handlers for bitmask rpc over mqtt
 const RPC_METHOD_ECHO = 34
