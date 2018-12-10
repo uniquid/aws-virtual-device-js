@@ -9,6 +9,10 @@
 use `installENV.sh` to install all this stuff
 
 ## Getting started
+### templates
+- [sine wave generator](../../tree/template/sinewave)
+- [in/out valve](../../tree/template/valve)
+
 ### clone
 `git clone https://github.com/uniquid/aws-virtual-device-js`
 
