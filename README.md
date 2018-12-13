@@ -10,7 +10,7 @@ use `installENV.sh` to install all this stuff
 
 ## Getting started
 ### templates
-- [sine wave generator](../../tree/template/sinewave)
+- [sine wave generator master](../../tree/master) or [sine wave generator develop](../../tree/master)
 - [in/out valve](../../tree/template/valve)
 
 ### clone
@@ -94,4 +94,26 @@ export AWS_AGENT_CONFIG='
 
 It's possible to send any kind of data using `device.publish`.    
 The second parameter of the function is the `string` that will be sent to AWS IoT.    
-You can create your own function that returns a `string` or `json object` (to stringify) that will be sent to AWS.    
+You can create your own function that returns a `string` or `json object` (to stringify) that will be sent to AWS.
+
+#### sinewave template
+``template/sinewave`` allows to run a ``sine wave generator`` using ``sineWave.start(amplitude, frequency, phase, sampling)``
+##### example
+With ``sineWave.start(1, 50, 0, 0.5)`` it's possibile start a sine wave generator that has an amplitude of 1@50Hz with phase of 0°.
+
+This sine wave is sampled every 0.5 seconds.
+##### output
+```{ timestamp: Date.now(), sin: sineWave.sin }```
+
+#### valve template
+``template/valve`` allows to run a ``valve`` to increase ``level`` of tank every x seconds by a ``delta`` using ``valve.start(limit, seconds, delta)``
+##### example
+With ``valve.start(100, 1, 2)`` it's possibile start a valve that every 1 second incrase tank level by 2 up to 100, when the tank reaches the limit, the valve will answer again with 100 and then the valve will empty the tank up to 0 with the same mode as before.
+##### output
+```{ timestamp: Date.now(), level: valve.level, flow: valve.flow, limit: valve.limit }```
+
+``valve.flow`` reais the flow direction of the valve
+```
+0 = the valve is filling
+1 = the valve is emptying
+```
