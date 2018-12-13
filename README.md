@@ -10,8 +10,8 @@ use `installENV.sh` to install all this stuff
 
 ## Getting started
 ### templates
-- [sine wave generator master](../../tree/master) or [sine wave generator develop](../../tree/master)
-- [in/out valve](../../tree/template/valve)
+- [sine wave generator master](https://github.com/uniquid/aws-virtual-device-js/) or [sine wave generator develop](https://github.com/uniquid/aws-virtual-device-js/tree/develop)
+- [in/out valve](https://github.com/uniquid/aws-virtual-device-js/tree/template/valve)
 
 ### clone
 `git clone https://github.com/uniquid/aws-virtual-device-js`
