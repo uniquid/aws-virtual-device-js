@@ -25,16 +25,24 @@ if (typeof argv.config != 'undefined') {
 }
 
 if (typeof argv.noenv == 'undefined') {
-    var aws_agent_config = JSON.parse(process.env.AWS_AGENT_CONFIG);
-    config.aws.cauth.host = aws_agent_config.awsEndpointAddress;
-    config.aws.awsNode = aws_agent_config.awsAgentName;
-    config.aws.tokenKey = aws_agent_config.awsTokenKey;
-    config.aws.cauth.authorizerName = aws_agent_config.awsAuthorizerName;
+    try{
+      var aws_agent_config = JSON.parse(process.env.AWS_AGENT_CONFIG);
+    } catch(e){
+      var aws_agent_config = require(process.env.AWS_AGENT_CONFIG);
+    }
+    
+    try{
+        config.aws.cauth.host = aws_agent_config.awsEndpointAddress;
+        config.aws.awsNode = aws_agent_config.awsAgentName;
+        config.aws.tokenKey = aws_agent_config.awsTokenKey;
+        config.aws.cauth.authorizerName = aws_agent_config.awsAuthorizerName;
 
-    var skey = JSON.stringify(aws_agent_config.awsPrivateKey);
-    var jkey = JSON.parse(skey);
-    config.aws.key = jkey.join('\n');
-
+        var skey = JSON.stringify(aws_agent_config.awsPrivateKey);
+        var jkey = JSON.parse(skey);
+        config.aws.key = jkey.join('\n');
+    } catch(e){
+    
+    }
     config.node.mqttHost = aws_agent_config.mqttUrl;
     config.node.announceTopic = aws_agent_config.mqttTopic;
     config.node.registryUrl = aws_agent_config.registryUrl;
