@@ -60,6 +60,10 @@ if (snet[1] == "regtest") {
     config.node.network = snet[1];
 }
 
+if(process.env.UID_DATA_PATH){
+    config.node.home = process.env.UID_DATA_PATH;
+}
+
 //delete config.node.bcSeeds;
 config.node.bcSeeds = [ 'testnet-seed.litecointools.com', 'dnsseed-testnet.thrasher.io' ];
 
