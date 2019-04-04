@@ -89,7 +89,10 @@ export AWS_AGENT_CONFIG='
 }
 '
 ```
-
+or 
+```
+export AWS_AGENT_CONFIG=path/configfile_from_cli.json
+```
 #### data to send to AWS IoT
 
 It's possible to send any kind of data using `device.publish`.    
