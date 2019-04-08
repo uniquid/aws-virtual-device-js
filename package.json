@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/uniquid/aws-virtual-device-js#readme",
   "dependencies": {
-    "@uniquid/uidcore": "git+https://github.com/uniquid/uidcore-js.git#feature/newsign",
+    "@uniquid/uidcore": "git+https://github.com/uniquid/uidcore-js.git#v1.0.0",
     "aws-iot-device-sdk": "^2.2.1"
   }
 }
